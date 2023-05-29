@@ -3,12 +3,147 @@ import Layout from "../../components/Layout"
 import "bootstrap/dist/css/bootstrap.min.css"
 import { useState } from "react"
 import axios from "axios"
-import { allUserData, editEmpStatusPayroll,editEmpStatusErp, logoutUser,getSingleEmp } from "../../services/apiFunction"
+import { allUserData, editEmpStatusPayroll,editEmpStatusErp,getSingleEmp } from "../../services/apiFunction"
 import SideBar from "../../components/OwnersSidebar"
 import { Link } from "gatsby"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import {indianDate} from "../../services/utils"
+
+const data = {
+  "success": true,
+  "employeeData": [
+      {
+          "basic": {
+              "name": {
+                  "firstName": "Prapti",
+                  "middleName": "Anil",
+                  "lastName": "Gomekar"
+              },
+              "mobile": {
+                  "countryCode": "+91",
+                  "number": 9860234523
+              },
+              "selectCount": 0,
+              "employeeId": "UISPL0004",
+              "gender": "Female",
+              "dateOfJoining": "Sun Feb 13 2022 05:30:00 GMT+0530 (India Standard Time)",
+              "maritalStatus": "SINGLE",
+              "probationPeriod": 3,
+              "confirmationDate": "2022-05-12T18:30:00.000Z",
+              "dateOfBirth": "2000-11-18T00:00:00.000Z",
+              "employmentStatus": "active",
+              "employmentType": "FTE",
+              "designation": "JUNIOR SOFTWARE ENGINEER",
+              "department": "SOFTWARE DEVELOPMENT",
+              "workMode": "WFH",
+              "workLocation": "Pune",
+              "selfDeclaration": {
+                  "idProofs": {
+                      "bloodGroup": "B-Positive",
+                      "aadhaarCard": {
+                          "aadhaarNumber": 673465324246,
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-13T13:30:19.872Z"
+                      },
+                      "panCard": {
+                          "panCardNumber": "AYRPP0909Q",
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-13T13:30:19.872Z"
+                      },
+                      "passport": {
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-13T13:30:19.872Z"
+                      }
+                  },
+                  "academics": [],
+                  "previousCompany": []
+              },
+              "email": "praptig@uvxcel.com"
+          },
+          "payrollData": {
+              "updatedby": {
+                  "empId": "UISPL0005",
+                  "date": "2023-04-13T14:23:06.648Z"
+              },
+              "createdby": {
+                  "empId": "UISPL0001",
+                  "date": "2023-04-13T13:49:48.759Z"
+              },
+              "_id": "6438042c1ed10be60f9d952a",
+              "empId": "UISPL0004",
+              "__v": 0,
+              "DOB3": "1966-06-06",
+              "DOB4": "1970-07-08",
+              "NameofFather": "Anil Gomekar",
+              "NameofMother": "Savita Gomekar",
+              "numberOfMember": 2,
+              "role": "technicalEmployee",
+              "empStatus": "Confirmed"
+          }
+      },
+      {
+          "basic": {
+              "name": {
+                  "firstName": "Pratik ",
+                  "middleName": "Dilip",
+                  "lastName": "Raut"
+              },
+              "mobile": {
+                  "countryCode": "+91",
+                  "number": 9867456786
+              },
+              "selectCount": 0,
+              "employeeId": "UISPL0006",
+              "gender": "Male",
+              "dateOfJoining": "Thu Apr 13 2023 05:30:00 GMT+0530 (India Standard Time)",
+              "maritalStatus": "SINGLE",
+              "probationPeriod": 3,
+              "confirmationDate": "2023-07-12T18:30:00.000Z",
+              "dateOfBirth": "1998-12-28T00:00:00.000Z",
+              "employmentStatus": "active",
+              "employmentType": "FTE",
+              "designation": "JUNIOR ACCOUNTANT ",
+              "department": "ACCOUNT",
+              "workMode": "WFH",
+              "workLocation": "Pune",
+              "selfDeclaration": {
+                  "idProofs": {
+                      "bloodGroup": "B-Positive",
+                      "aadhaarCard": {
+                          "aadhaarNumber": 234356787898,
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-14T09:15:59.565Z"
+                      },
+                      "panCard": {
+                          "panCardNumber": "AYRPT5567Y",
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-14T09:15:59.565Z"
+                      },
+                      "passport": {
+                          "verifyStatus": "Pending",
+                          "uploadedAt": "2023-04-14T09:15:59.565Z"
+                      }
+                  },
+                  "academics": [],
+                  "previousCompany": []
+              },
+              "email": "pratikr@uvxcel.com"
+          },
+          "payrollData": {
+              "empStatus": "Pending",
+              "_id": "643919e12a78b7517d0510db",
+              "empId": "UISPL0006",
+              "DOB3": "1968-12-09",
+              "DOB4": "1970-03-08",
+              "NameofFather": "Dilip Raut",
+              "NameofMother": "ABC",
+              "numberOfMember": 3,
+              "role": "technicalEmployee"
+          }
+      }
+  ]
+}
 
 function App() {
   const [records, setRecords] = useState<any>([])
@@ -18,9 +153,9 @@ function App() {
   const getAllEmployees = async () => {
     let data = await allUserData()
     setRecords(data.employeeData)
-    console.log("1",data)
+    // console.log("1",data)
   }
-  console.log(records);
+  // console.log(records);
   useEffect(() => {
     getAllEmployees()
     document.querySelectorAll("td,th").forEach(data => {
@@ -38,10 +173,11 @@ function App() {
         input.style.border = "1px solid black"
         input.style = "appearance: block"
       })
+     
       tableRow.querySelector(".saveConfirmDate").style.display = ""
       const currentEmp = await getSingleEmp(empId)
       setEmpToEdit(currentEmp.data)
-      console.log("h",currentEmp)
+      // console.log("h",currentEmp)
       rowData.forEach((element:any) => {
         element.removeAttribute("readOnly")
       })
@@ -93,7 +229,7 @@ function App() {
 
   const confirmBtnClick = async (id:any, name:string) => {
     editEmpStatusPayroll(id, { empStatus: "Confirmed" })
-    getAllEmployees()
+    // getAllEmployees()
     toast.success(id + " confirmed successfully")
     getAllEmployees()
   }
@@ -159,6 +295,7 @@ function App() {
                                     name="probationPeriod"
                                     className="data select"
                                     id="select"
+                                    data-testid="probitionPeriod"
                                     onChange={e => {
                                       setEmpToEdit({
                                         ...empToEdit,
@@ -167,8 +304,8 @@ function App() {
                                       record.basic.probationPeriod = e.target.value
                                     }}
                                     //disabled={true}
-                                    defaultValue={record.basic.probationPeriod}
-                                    arial-readOnly
+                                    value={record.basic.probationPeriod}
+                                    // aria-readonly
                                   >
                                     {" "}
                                     <option value="3">3 Months</option>
@@ -177,22 +314,25 @@ function App() {
                                   </select>
                                   <img
                                     src="/edit.png"
-                                    alt="ViewImg"
+                                    alt="edit button"
                                     className={`editConfirmDate ${
                                       record.basic.selectCount === 2 ? "d-none" : ""
                                     }`}
                                     id="editBtn"
-                                    onClick={e =>
+                                    data-testid="editBtn"
+                                    onClick={e =>{
                                       onEditClick(
                                         e,
                                         record.payrollData.empId,
                                         record.basic.selectCount
                                       )                                   
-                                    }
+                                    }}
                                   />
                                   <img
                                     src="/save.png"
+                                    id="saveBtn"
                                     alt="ViewImg"
+                                    data-testid = "saveBtn"
                                     className="saveConfirmDate editConfirmDate"
                                     style={{ display: "none" }}
                                     onClick={e =>
@@ -216,6 +356,7 @@ function App() {
                                   <button
                                     className="btn btn-success"
                                     id="btn"
+                                    data-testid="confirmBtn"
                                     onClick={e =>
                                       confirmBtnClick(
                                         record.payrollData.empId,

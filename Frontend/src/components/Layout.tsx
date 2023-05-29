@@ -89,7 +89,7 @@ const testingUser = {
 export const UserData = createContext<any>({});
 
 const Layout: React.FC<PageProps> = ({ children }) => {
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState();
   const [protectedUser, setProtectedUser] = useState();
 
   const callUser = async () => {

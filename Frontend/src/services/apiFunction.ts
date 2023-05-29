@@ -210,7 +210,8 @@ export const editEmpStatusPayroll = async (id:string, userData:any) => {
     console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    // console.log(error)
+    return error.response
   }
 }
 // Edit employee information
@@ -225,7 +226,7 @@ export const editEmpStatusErp = async (id:string, userData:any) => {
     console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response
   }
 }
 
@@ -308,6 +309,7 @@ export const getNewUsers = async () => {
 export const getSingleEmp = async (id:string) => {
   try {
     const data = await axios.get(`/api/v2/single-emp/${id}`)
+    console.log(data)
     return data.data
   } catch (error:any) {
     return error
