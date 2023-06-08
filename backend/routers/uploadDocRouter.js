@@ -7,6 +7,7 @@ const {
   isAuthenticated,
   isNewEmployee,
 } = require("../middleware/isAuthenticated");
+// router.route("/document/upload").post( uploadDocument);
 router.route("/document/upload").post(upload.single("myFile"), uploadDocument);
 router.route("/document/all").get(getAllDocs);
 

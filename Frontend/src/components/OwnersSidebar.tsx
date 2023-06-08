@@ -9,7 +9,7 @@ const SideBar = () => {
 
   useEffect(() => {
     let attr = document.querySelectorAll(".navbar-item a") 
-    console.log(attr)
+    // console.log(attr)
 
     attr.forEach((item:any) => {
       if (item.getAttribute("aria-current") === "page") {

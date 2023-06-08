@@ -43,7 +43,6 @@ function App() {
 
   //To reject the candidate
   const saveRejectCandi = async () => {
-    console.log(rejectReason)
     if (rejectReason.rejectedMessage) {
       // window.alert(
       //   "Candidate" + rejectReason.candidateName + " is rejected successfully"
@@ -118,6 +117,7 @@ function App() {
                                   <div className="col-4 offset-8 d-flex justify-content-end">
                                     <button
                                       className="btn btn-success"
+                                      data-testid = "onboardBtn"
                                       onClick={e =>
                                         saveOnboardCandi(
                                           candirecord.candidateId,
@@ -129,6 +129,7 @@ function App() {
                                     </button>
                                     <button
                                       className="btn btn-danger"
+                                      data-testid = "rejectBtn"
                                       onClick={() => {
                                         setRejectBoxShow(true)
                                         setRejectReason({
@@ -151,7 +152,7 @@ function App() {
                   </table>
                 </div>
                 {rejectBoxShow ? (
-                  <div className="modal RejectReasonModal ">
+                  <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -261,6 +262,7 @@ function App() {
                               className="form-control"
                               id="message-text"
                               name="rejectedMessage"
+                              data-testid = "rejectReason"
                               onChange={e =>
                                 setRejectReason({
                                   ...rejectReason,
@@ -274,6 +276,7 @@ function App() {
                         <div className="modal-footer">
                           <button
                             type="button"
+                            data-testid = "closeRejectModal"
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
                             onClick={() => {
@@ -285,6 +288,7 @@ function App() {
                           </button>
                           <button
                             type="button"
+                            data-testid = "finalRejectButton"
                             className="btn btn-primary"
                             onClick={e => saveRejectCandi()}
                           >

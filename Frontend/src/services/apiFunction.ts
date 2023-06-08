@@ -14,10 +14,9 @@ export const getLogin = async (userData: any) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } }
     const { data } = await axios.post("/api/v2/login", userData, config)
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 // change password
@@ -33,7 +32,7 @@ export const createNewPassword = async (userData: string) => {
     )
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -41,11 +40,10 @@ export const createNewPassword = async (userData: string) => {
 export const loadUser = async () => {
   try {
     const { data } = await axios.get("/api/v2/me")
-    // console.log("123", data)
-    // console.log(data)
+
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 //logout function
@@ -54,7 +52,7 @@ export const logoutUser = async () => {
     const { data } = await axios.get("/api/v2/logout")
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -70,7 +68,7 @@ export const getUserData = async (month: number, year: number) => {
     const { data } = await axios.get(api)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -85,7 +83,7 @@ export const createUser = async (userData: any) => {
     )
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -100,7 +98,7 @@ export const createManyUser = async (userData: any) => {
     )
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -110,7 +108,7 @@ export const allUserData = async () => {
     const { data } = await axios.get("/api/v2/payroll/user/all")
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -123,11 +121,10 @@ export const createCtcData = async (ctcdata:any) => {
       ctcdata,
       config
     )
-    console.log("Display CTC all data.")
-    console.log(data)
+
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -141,10 +138,9 @@ export const createConfirmEmp = async (confirmempdata:any) => {
       confirmempdata,
       config
     )
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -152,10 +148,9 @@ export const createConfirmEmp = async (confirmempdata:any) => {
 export const getOwnerData = async () => {
   try {
     const { data } = await axios.get("/api/v2/owner/data")
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -163,10 +158,9 @@ export const getOwnerData = async () => {
 export const getMyCTC = async () => {
   try {
     const { data } = await axios.get("/api/v2/payroll/user/ctc")
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -179,11 +173,9 @@ export const uploadCandiInfo = async (candiInfo:any) => {
       candiInfo,
       config
     )
-    console.log("Display Candidates all information.")
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -191,10 +183,9 @@ export const uploadCandiInfo = async (candiInfo:any) => {
 export const getAllCTC = async () => {
   try {
     const { data } = await axios.get("/api/v2/payroll/user/all/ctc")
-    //console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -207,10 +198,8 @@ export const editEmpStatusPayroll = async (id:string, userData:any) => {
       userData,
       config
     )
-    console.log(data)
     return data
   } catch (error:any) {
-    // console.log(error)
     return error.response
   }
 }
@@ -223,7 +212,6 @@ export const editEmpStatusErp = async (id:string, userData:any) => {
       userData,
       config
     )
-    console.log(data)
     return data
   } catch (error:any) {
     return error.response
@@ -232,7 +220,6 @@ export const editEmpStatusErp = async (id:string, userData:any) => {
 
 // Edit candidate status
 export const editCandiStatus = async (id:string, userData:any) => {
-  console.log(id, userData)
   try {
         const config:IConfig = {headers: { "Content-Type": "application/json" } }
 
@@ -241,16 +228,14 @@ export const editCandiStatus = async (id:string, userData:any) => {
       userData,
       config
     )
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
 // Edit candidate status
 export const editRejectCandiInfo = async (id:string, userData:any) => {
-  console.log(id, userData)
   try {
         const config:IConfig = {headers: { "Content-Type": "application/json" } }
 
@@ -259,10 +244,9 @@ export const editRejectCandiInfo = async (id:string, userData:any) => {
       userData,
       config
     )
-    console.log(data)
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -270,11 +254,11 @@ export const editRejectCandiInfo = async (id:string, userData:any) => {
 export const getAllPfEmpData = async () => {
   try {
     const { data } = await axios.get("/api/v2/pfEmp/data")
-    // console.log(data);
     return data
   } catch (error:any) {
-    return error.response.data
-  }
+    return error.response?.data
+  }  
+
 }
 
 //Upload employee Information and Save to database(hr Admin login)
@@ -287,11 +271,10 @@ export const uploadPfEmpInfo = async (empInfo:any) => {
       empInfo,
       config
     )
-    console.log("Display all employee pf information.")
-    console.log(data)
+
     return data
   } catch (error:any) {
-    return error.response.data
+    return error.response?.data
   }
 }
 
@@ -309,7 +292,6 @@ export const getNewUsers = async () => {
 export const getSingleEmp = async (id:string) => {
   try {
     const data = await axios.get(`/api/v2/single-emp/${id}`)
-    console.log(data)
     return data.data
   } catch (error:any) {
     return error

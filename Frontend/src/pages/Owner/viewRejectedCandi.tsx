@@ -11,6 +11,7 @@ function App() {
   const [candirecords, setCandirecords] = useState<any>([])
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
+
   //To get all Candidate data
   const getAllCandidates = async () => {
     let rejectCandi:any = []
@@ -94,6 +95,7 @@ function App() {
                                   {" "}
                                   <button
                                     id="modalbtn"
+                                    data-testid = "seeDetailsBtn"
                                     onClick={() =>
                                       onButtonClick(candirecord.rejectedMessage)
                                     }
@@ -108,15 +110,18 @@ function App() {
                     </tbody>
                   </table>
                 </div>
-                <Modal isOpen={modalIsOpen}>
+                <Modal ariaHideApp={false} isOpen={modalIsOpen}>
+                {/* <Modal isOpen={modalIsOpen}> */}
                   <h1
+                  data-testid="reject-Message-Model"
                     className="RejectMheading text-center pt-4"
                     id="heading"
                   ></h1>
-                  <div className="rejectInfoModal" id="common-modal"></div>
+                  <div className="rejectInfoModal" data-testid="reject-message-div" id="common-modal"></div>
                   <div className="modalBtnDiv">
                     <button
                       className="modalbtn"
+                      data-testid = "closeRejectModal"
                       onClick={() => setModalIsOpen(false)}
                     >
                       Close

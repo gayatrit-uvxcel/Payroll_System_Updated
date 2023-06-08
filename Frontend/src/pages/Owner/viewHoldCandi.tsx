@@ -105,6 +105,7 @@ function App() {
                                   <div className="col-4 offset-8 d-flex justify-content-end">
                                     <button
                                       className="btn btn-success"
+                                      data-testid = "selectBtn"
                                       onClick={e =>
                                         saveApproveCandi(
                                           candirecord.candidateId,
@@ -116,12 +117,13 @@ function App() {
                                     </button>
                                     <button
                                       className="btn btn-danger"
+                                      data-testid = "rejectBtn"
                                       onClick={() => setRejectBoxShow(true)}
                                     >
                                       Reject
                                     </button>
                                     {rejectBoxShow ? (
-                                      <div className="modal RejectReasonModal ">
+                                      <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
                                         <div className="modal-dialog">
                                           <div className="modal-content">
                                             <div className="modal-header">
@@ -225,6 +227,7 @@ function App() {
                                                 <textarea
                                                   className="form-control"
                                                   id="message-text"
+                                                  data-testid = "rejectReason"
                                                   name="rejectedMessage"
                                                   onChange={e =>
                                                     setRejectReason(
@@ -239,6 +242,7 @@ function App() {
                                               <button
                                                 type="button"
                                                 className="btn btn-secondary"
+                                                data-testid = "closeRejectModal"
                                                 data-bs-dismiss="modal"
                                                 onClick={() =>
                                                   setRejectBoxShow(false)
@@ -249,6 +253,7 @@ function App() {
                                               <button
                                                 type="button"
                                                 className="btn btn-primary"
+                                                data-testid = "finalRejectButton"
                                                 onClick={e =>
                                                   saveRejectCandi(
                                                     candirecord.candidateId,

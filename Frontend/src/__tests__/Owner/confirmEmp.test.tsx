@@ -1,5 +1,5 @@
 import React from "react"
-import { render } from "../../test_Util/testing_repeat_code";
+import { render } from "../../test_Util/custom_render_function";
 import {rest} from "msw"
 import {setupServer} from "msw/node";
 import ConfirmEmp from "../../pages/Owner/confirmEmp"
@@ -160,8 +160,6 @@ describe("testing list of confirm employee in owner login",()=>{
         const {debug,findByText} = render(<ConfirmEmp />,{route:"/Owner/confirmEmp/"})
     
         await findByText("UISPL0004")
-
-        // debug()
 
     })
 })

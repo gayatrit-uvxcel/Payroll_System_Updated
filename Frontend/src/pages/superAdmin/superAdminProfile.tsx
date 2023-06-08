@@ -2,7 +2,13 @@ import React, { useEffect, useState, useContext } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import { loadUser } from "../../services/apiFunction"
 import Layout from "../../components/Layout"
+import {Link} from "@reach/router"
 
+// interface pathProps {
+//   path:string;
+// }
+
+// const Profile:React.FC<pathProps> = ({path}) => {
 const Profile = () => {
   const [user, setUser] = useState<any>({success:false})
   // const getUser =  () => {
@@ -23,12 +29,14 @@ const Profile = () => {
           <div className="container superAdminProfileContainer">
             <div className="row justify-content-center mt-5 ">
               <div className="col-lg-10 superAdminBtnDiv">
-                <a
-                  href="/app/superadmin"
+                <Link
+                data-testid="myDashboard"
+                  // href="/app/superadmin"
+                  to="/app/superadmin"
                   className="btn btn-outline-secondary superAdminBtn mr-3"
                 >
                   My Dashboard
-                </a>
+                </Link>
               </div>
               <div className="card col-lg-5 text-center superAdminP">
                 <h2 className="superAdminH2"> Super Admin Profile</h2>

@@ -11,12 +11,13 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp">
           <h3>All Employees</h3>
-          <Link data-testid="/Owner/listOfEmp" to="/Owner/listOfEmp">
-            <img
+          <Link to="/Owner/listOfEmp">
+            {/* <img
               src="/empList.png"
               alt="AddEmpImg"
               className="icon img-fluid"
-            />{" "}
+            />{" "} */}
+            <button data-testid="/Owner/listOfEmp">Click</button>
           </Link>
           <h6>View existing employee's list</h6>
         </div>

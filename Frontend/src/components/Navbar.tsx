@@ -132,7 +132,7 @@ const Navbar = (props: RouteComponentProps) => {
                 // allRoleLinks[`${ userRole }`].map((link: any) => {
                 allRoleLinks[userRole as keyof IAllRoleLinks].map((link: any) => {
                   return (
-                    <li className="nav-item">
+                    <li key={link.href} className="nav-item">
                       <a className="nav-link" href={link.href}>
                         {link.text}
                       </a>

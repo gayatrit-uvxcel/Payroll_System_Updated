@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from "gatsby";
 
 const HrDashboard = () => {
-  useEffect(() => {
-    console.log(window.location.href);console.log(window.location.pathname);
-  }, [])
-  
   
   return (
     <>
@@ -22,6 +18,7 @@ const HrDashboard = () => {
               <h3 className="text-center">View Employees List</h3>
               <Link
                 to="/HR Management/employee/"
+                data-testid="employeeList"
                 className=" mx-auto text-center"
               >
                 <img
@@ -41,6 +38,7 @@ const HrDashboard = () => {
               <Link
                 to="/HR Management/editRejectCandi/"
                 className=" mx-auto text-center pt-0"
+                data-testid="rejectedCandiList"
               >
                 <img
                   className="w-50 mx-auto"
@@ -57,6 +55,7 @@ const HrDashboard = () => {
               <Link
                 to="/HR Management/shortlistedCandidate/"
                 className="mx-auto text-center"
+                data-testid="uploadCandiList"
               >
                 <img
                   className="w-50 mx-auto"
@@ -73,6 +72,7 @@ const HrDashboard = () => {
               <Link
                 to="/HR Management/pfManagement"
                 className="mx-auto text-center"
+                data-testid="PfManagement"
               >
                 <img className="w-50 mx-auto" src="/pf.jpg" alt="pf" />{" "}
               </Link>

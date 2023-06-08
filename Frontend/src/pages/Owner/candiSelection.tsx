@@ -37,10 +37,8 @@ function App() {
 
   //To Reject the candidate
   const saveRejectCandi = async () => {
-    console.log(rejectReason)
     if (rejectReason.rejectedMessage) {
-      // window.alert(
-      //   "Candidate" + rejectReason.candidateName + " is rejected successfully"
+      
       toast.success(
         "Candidate " + rejectReason.candidateName + " is rejected successfully")
       // )
@@ -50,7 +48,7 @@ function App() {
       })
       setRejectBoxShow(false)
       setRejectReason(rejectedReasonInitialValue)
-      getAllCandidates()
+      await getAllCandidates()
     } else {
       //alert("Please select any reason to reject the candidate.")
       toast.success("Please select any reason to reject the candidate.")
@@ -59,11 +57,12 @@ function App() {
 
   //To Select/Aprrove the candidate
   const saveApproveCandi = async (id:any, candidateName:any) => {
-    editCandiStatus(id, { candiStatus: "Selected" })
-    getAllCandidates()
+  
+    await editCandiStatus(id, { candiStatus: "Selected" })
+    // getAllCandidates()
     // window.alert("Candidate" + candidateName + " is selected successfully")
     toast.success("Candidate " + id + " is selected successfully")
-    getAllCandidates()
+    await getAllCandidates()
   }
 
   //To Hold the candidate
@@ -131,6 +130,7 @@ function App() {
                                   <div className="col-4 offset-8 d-flex justify-content-end">
                                     <button
                                       className="btn btn-success"
+                                      data-testid="selectBtn"
                                       onClick={e =>
                                         saveApproveCandi(
                                           candirecord.candidateId,
@@ -142,6 +142,7 @@ function App() {
                                     </button>
                                     <button
                                       className="btn btn-info"
+                                      data-testid="holdBtn"
                                       onClick={e =>
                                         saveHoldCandi(
                                           candirecord.candidateId,
@@ -153,6 +154,7 @@ function App() {
                                     </button>
                                     <button
                                       className="btn btn-danger"
+                                      data-testid="rejectBtn"
                                       onClick={() => {
                                         setRejectBoxShow(true)
                                         setRejectReason({
@@ -175,7 +177,7 @@ function App() {
                   </table>
                 </div>
                 {rejectBoxShow ? (
-                  <div className="modal RejectReasonModal ">
+                  <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -284,6 +286,7 @@ function App() {
                             <textarea
                               className="form-control"
                               id="message-text"
+                              data-testid="rejectReason"
                               name="rejectedMessage"
                               onChange={e =>
                                 setRejectReason({
@@ -300,6 +303,7 @@ function App() {
                             type="button"
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
+                            data-testid = "closeRejectModal"
                             onClick={() => {
                               setRejectBoxShow(false)
                               setRejectReason(rejectedReasonInitialValue)
@@ -310,6 +314,7 @@ function App() {
                           <button
                             type="button"
                             className="btn btn-primary"
+                            data-testid="finalRejectButton"
                             onClick={e => saveRejectCandi()}
                           >
                             Reject

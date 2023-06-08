@@ -22,12 +22,12 @@ const Profile = () => {
             <div className="row justify-content-center">
               <div className="hrAdminBtnDiv col-lg-10 ">
                 <a
-                  href="/app/hrdashboard" role="button" data-testid="tagBtn"
+                  href="/app/hrdashboard" role="button" data-testid="hrdashboardBtn"
                   className="btn btn-outline-secondary hrAdminBtn mr-3"
                 >
                   My Dashboard
                 </a>
-                <a href="#access" role="button" data-testid="tagBtn" className="btn btn-outline-secondary hrAdminBtn" >
+                <a href="#access" data-testid="allAccessBtn" role="button" className="btn btn-outline-secondary hrAdminBtn" >
                   View All Access
                 </a>
               </div>

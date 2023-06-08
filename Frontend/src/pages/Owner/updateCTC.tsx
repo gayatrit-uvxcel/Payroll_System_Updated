@@ -52,9 +52,8 @@ function App() {
     rowData.forEach((element:any) => {
       element.removeAttribute("readOnly")
     })
-    const currentEmp = await axios.get(`/api/v2/single-ctc/${empId}`)
-    setEmpToEdit(currentEmp.data)
-    console.log(currentEmp.data)
+    const {data} = await axios.get(`/api/v2/single-ctc/${empId}`)
+    setEmpToEdit(data)
   }
   const onSaveBtnClick = async (e:any, empId:any, name:string) => {
     console.log(empId, name)
@@ -105,7 +104,6 @@ function App() {
                     <tbody>
                       {allCtc &&
                         allCtc.map((record:any, Index:number) => {
-                          console.log(record)
                           return (
                             <tr key={Index}>
                               <td>{Index + 1}</td>

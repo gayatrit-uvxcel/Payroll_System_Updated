@@ -26,7 +26,7 @@ const UploadDocument = () => {
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
     // document.getElementById("bulk-file").value = ""
-    window.location.reload(false)
+    window.location.reload()
   }
 
   const [docs, setDocs] = useState([])
@@ -146,7 +146,6 @@ const UploadDocument = () => {
                     <tbody>
                       {docs &&
                         docs.map((docs:any, Index:number) => {
-                          console.log(docs.filename)
                           return (
                             <tr key={Index}>
                               <td>{Index + 1}</td>

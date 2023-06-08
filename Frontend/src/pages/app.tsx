@@ -7,7 +7,11 @@ import Login from "../components/Login"
 import SuperAdmin from "./superAdmin/SuperAdmin"
 import Owner from "./Owner/Owner"
 import Myprofile from "./Owner/myprofile"
-import { Router } from "@reach/router"
+import { Router,RouteComponentProps } from "@reach/router"
+
+const RouterPage = (
+    props: { pageComponent: JSX.Element } & RouteComponentProps
+  ) => props.pageComponent;
 
 
 
@@ -39,6 +43,9 @@ const App = () => {
                         path="/myProfile"
                         component={Myprofile} />
                     <Login path="/app/login" />
+                    {/* <RouterPage path="/app/login" pageComponent={} /> */}
+                    {/* <RouterPage path="/app/login" pageComponent={<Login/>} />
+                    <RouterPage path="/app/user" pageComponent={<Profile1/>} /> */}
                     {/* <Owner path="app/own" /> */}
                 </Router>
             </Layout>

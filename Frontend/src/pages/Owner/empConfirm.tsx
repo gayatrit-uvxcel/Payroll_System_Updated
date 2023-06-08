@@ -224,6 +224,7 @@ function App() {
       confirmDate.setMonth(confirmDate.getMonth()+9)
       editEmpStatusErp(empId, { confirmationDate: confirmDate,probationPeriod:probationPeriod })
     }
+    console.log("Hii s")
     getAllEmployees()
   }
 

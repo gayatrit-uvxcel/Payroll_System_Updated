@@ -1,16 +1,14 @@
 import React from "react"
-import { render } from "../../test_Util/testing_repeat_code";
+import { render } from "../../test_Util/custom_render_function";
 import {rest} from "msw"
 import {setupServer} from "msw/node";
 import EmpConfirm from "../../pages/Owner/empConfirm"
 import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom/extend-expect"
-import { getByTestId, waitFor } from "@testing-library/dom";
+import {waitFor } from "@testing-library/dom";
 
 
-
-
-const data = {
+const sampleData = {
     "success": true,
     "employeeData": [
         {
@@ -145,11 +143,10 @@ const data = {
     ]
 }
 
-
 const server = setupServer()
 
 
-const customeServerCall = () => {
+const customeServerCall = ({data=sampleData}={}) => {
     return server.use(rest.get("/api/v2/payroll/user/all",(req,res,ctx)=>{
         return res(ctx.json(data))
     }))
@@ -160,6 +157,7 @@ describe("empConfirm.test.tsx",()=>{
     beforeAll(()=>server.listen())
     afterEach(()=>server.resetHandlers())
     afterAll(()=>server.close())
+
     it("component should render", async ()=>{
         customeServerCall()
         const {getByText,debug,findByText} = render(<EmpConfirm/>,{route:"/Owner/empConfirm/"})
@@ -167,11 +165,13 @@ describe("empConfirm.test.tsx",()=>{
         await findByText("UISPL0006")
     })
 
+
     it("scenario:When click on the edit but edit Then need to be enable the select input to edit the option and after that clicking on save button to save the changes", async ()=>{
-        customeServerCall()
-        // for one employee call
-        server.use(rest.get("/api/v2/single-emp/UISPL0006",(req,res,ctx)=>{
-            res(ctx.json(  {
+        customeServerCall({data:sampleData})
+
+          // for one employee call
+          server.use(rest.get("/api/v2/single-emp/UISPL0006",(req,res,ctx)=>{
+            return res(ctx.json({
                 "basic": {
                     "name": {
                         "firstName": "Pratik ",
@@ -234,77 +234,68 @@ describe("empConfirm.test.tsx",()=>{
         }))
 
       
-        const {debug,findByText,getAllByTestId,container} = render(<EmpConfirm/>,{route:"/Owner/empConfirm/"})
+        const {findByText,getAllByTestId,container} = render(<EmpConfirm/>,{route:"/Owner/empConfirm/"})
 
         await findByText("UISPL0006")
 
         const editBtns = container.querySelectorAll("#editBtn")
         expect(editBtns.length).toBeGreaterThanOrEqual(1)
 
-       // waiting because it calling async function
+      
+        
+        // waiting because it calling async function
         await waitFor(()=> userEvent.click(editBtns[0])) 
-
+        
         expect(getAllByTestId("saveBtn")[0]).not.toHaveStyle('display:none')
 
-        const selectRef = getAllByTestId("probitionPeriod")[0] as HTMLSelectElement
+        const selectRef = getAllByTestId("probitionPeriod")[0] as HTMLSelectElement;
     
         await waitFor(()=> userEvent.selectOptions(selectRef,"6")) 
 
         expect(selectRef.value).toBe('6');
 
         const saveBtns = container.querySelectorAll("#saveBtn")
-        // console.log(saveBtns.length)
         expect(editBtns.length).toBeGreaterThanOrEqual(1)
 
-         // waiting because it calling async function
-         await waitFor(()=> userEvent.click(saveBtns[0]))
-
         server.use(rest.put("/api/v2/edit-emp/payroll/UISPL0006",(req,res,ctx)=>{
-            data.employeeData[0].basic.probationPeriod = 6
+            sampleData.employeeData[0].basic.probationPeriod = 6
 
-           res(ctx.status(200),ctx.json({success:true}))
+           return res(ctx.status(200),ctx.json({success:true}))
         }))  
          server.use(rest.put("/api/v2/edit-emp/erp/UISPL0006",(req,res,ctx)=>{
-            data.employeeData[0].basic.selectCount = 1
+            sampleData.employeeData[0].basic.selectCount = 1
 
-           res(ctx.status(200),ctx.json({success:true}))
+           return res(ctx.status(200),ctx.json({success:true}))
         })) 
 
-        // debug()
+        
+        
+        // waiting because it calling async function
+        await waitFor(()=> userEvent.click(saveBtns[0]))
+
+        expect(getAllByTestId("saveBtn")[0]).toHaveStyle('display:none')
     })
 
-
     it("when confirm button is enable than click on confirm to confirm the employee", async ()=>{
-        customeServerCall()
 
-        const {debug,findByText,getAllByTestId,container} = render(<EmpConfirm/>,{route:"/Owner/empConfirm/"})
+        customeServerCall({data:sampleData})
+
+        const {debug,findByText,getAllByTestId,queryByText} = render(<EmpConfirm/>,{route:"/Owner/empConfirm/"})
 
         await findByText("UISPL0006")
-
-        // debug()
 
         const confirmBtns = getAllByTestId("confirmBtn")
         expect(confirmBtns.length).toBeGreaterThanOrEqual(1)
 
         expect(confirmBtns[0]).not.toHaveAttribute("disabled")
 
-        await waitFor(()=>userEvent.click(confirmBtns[0]))
-
         server.use(rest.put("/api/v2/edit-emp/payroll/UISPL0006",(req,res,ctx)=>{
-            data.employeeData[0].payrollData.empStatus = "confirm"
+            sampleData.employeeData[1].payrollData.empStatus = "Confirm"
 
-           res(ctx.status(200),ctx.json({success:true}))
+           return res(ctx.status(200),ctx.json({success:true}))
         })) 
 
-        // customeServerCall()
-
-        // debug()
-
-
-
-        // console.log(confirmBtns.map((btn=>btn.innerHTML)))
-
-
-
+        await waitFor(()=>userEvent.click(confirmBtns[0]))
+        expect(queryByText('Sachin')).not.toBeInTheDocument()
     })
 })
