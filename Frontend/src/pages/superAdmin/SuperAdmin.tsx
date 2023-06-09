@@ -21,7 +21,7 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className="text-center">Add Employee To Payroll</h4>
               <div className="text-center">
-                <Link to="/superAdmin/addEmployee/">
+                <Link to="/superAdmin/addEmployee/" data-testid = "addEmp">
                   <img src="/addemp.png" alt="AddEmpImg" className="icon" />
                 </Link>
               </div>
@@ -36,7 +36,7 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className=" text-center">View All Employee</h4>
               <div className="text-center">
-                <Link to="/superAdmin/viewAllEmployee/">
+                <Link to="/superAdmin/viewAllEmployee/" data-testid = "viewEmp">
                   <img src="/viewIcon.png" alt="ViewImg" className="icon" />
                 </Link>
               </div>
@@ -51,7 +51,7 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className=" text-center">Upload Bulk Employee</h4>
               <div className="text-center">
-                <Link to="/superAdmin/addBulkEmployee/">
+                <Link to="/superAdmin/addBulkEmployee/" data-testid = "uploadBulkEmp">
                   <img src="/upload.png" alt="UploadImg" className="icon" />
                 </Link>
               </div>

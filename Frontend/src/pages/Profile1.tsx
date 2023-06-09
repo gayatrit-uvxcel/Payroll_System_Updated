@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react"
 import Layout from "../components/Layout"
 import Table from "react-bootstrap/Table"
 import Modal from "react-modal"
-import jsPDF from "jspdf"
+import JsPDF from "jspdf"
 import {
   loadUser,
   getUserData,
@@ -12,7 +12,6 @@ import {
 } from "../services/apiFunction"
 import html2canvas from "html2canvas"
 import { indianDate } from "../services/utils"
-import Owner from "./Owner/Owner"
 const months = [
   "January",
   "February",
@@ -60,7 +59,7 @@ interface CalculateSalary extends ILeaves {
   holiday: number,
 }
 
-const Profile1 = () => {
+const Profile = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modal1IsOpen, setModal1IsOpen] = useState(false)
   const [selectedAttendanceYear, setSelectedAttendanceYear] = useState<any>(
@@ -73,7 +72,7 @@ const Profile1 = () => {
   // Download PDF functionality
   async function generatePDF() {
     var downloading = document.getElementById("salaryTable") as HTMLElement
-    var doc = new jsPDF("l", "pt", "a4")
+    var doc = new JsPDF("l", "pt", "a4")
     await html2canvas(downloading, {
       width: 2000,
       height: 2500,
@@ -84,7 +83,6 @@ const Profile1 = () => {
   }
 
   async function showSalary(e: any) {
-    console.log(e.target.value);
     if (e.target.value) {
       const d = await getUserData(
         Number(e.target.value),
@@ -122,7 +120,6 @@ const Profile1 = () => {
 
   // check box functionality
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.checked);
 
     if (event.target.checked) {
       const familyInfo = document.querySelector('.familyHidden') as HTMLElement
@@ -169,7 +166,7 @@ const Profile1 = () => {
   const [ctc, setCtc] = useState()
   const [previousMonthAttendance, setPreviousMonthAttendance] = useState<any>()
   const [previousMonthsalaryData, setPreviousMonthsalaryData] = useState<any>()
-  console.log(previousMonthAttendance);
+
 
   function getDaysInMonth(year: number, month: number) {
     return new Date(year, month, 0).getDate()
@@ -187,14 +184,12 @@ const Profile1 = () => {
     "casual leave": cl,
     holiday,
   }: CalculateSalary) => {
-    console.log(month, year);
     //const currentYear = new Date().getFullYear()
     //const previousMonth = new Date().getMonth(month)
     const getmonth = String(month)
     //console.log(typeof.months.indexOf(month));
 
     const daysOfPreviousMonth = getDaysInMonth(year, months.indexOf(getmonth) + 1)
-    console.log(daysOfPreviousMonth);
     let totalCtc = Number(ctc)
     let sLeave = Number(sl)
     let pLeave = Number(pl)
@@ -220,7 +215,6 @@ const Profile1 = () => {
     let netSalary =
       grossSalary - leaveDeduction - pf - pt - EmployerContribution
     let roundupNetSalary = netSalary.toFixed(2)
-    console.log(totalBusinessDay, holiday, totalpaidLeaves, present)
     return {
       basicSalary,
       houseAllowance,
@@ -245,7 +239,7 @@ const Profile1 = () => {
     // for data of logged in employee
     let l = await loadUser()
     const data = l.employee
-    console.log(data)
+  
     var id = data.payrollData.empId
 
     const singleEmpPf = await getSinglePfData(id)
@@ -253,12 +247,10 @@ const Profile1 = () => {
     // for Particular employee CTC
     let CTC = await getMyCTC()
     // for attendance of an employee
-    console.log(monthData);
+    console.log(CTC);
     let presentData = await getUserData(monthData.month, monthData.year)
-    console.log(presentData)
 
     setRecords({ ...data, pfEmpData: singleEmpPf })
-    // console.log(records)
     // to show CTC
     if (CTC.success === true) {
       setCtc(CTC.employeeCTC.CTC)
@@ -286,7 +278,7 @@ const Profile1 = () => {
     month: number,
     year: number
   }
-  console.log(records)
+
   // getEmployeeData()
   useEffect(() => {
     const d = new Date()
@@ -295,7 +287,7 @@ const Profile1 = () => {
       month: oldMonth.getMonth(),
       year: oldMonth.getFullYear(),
     }
-    console.log(monthData);
+
     
     getEmployeeData(monthData)
   }, [])
@@ -303,14 +295,12 @@ const Profile1 = () => {
   useEffect(() => {
     if (records && records.basic.dateOfJoining) {
       let cYear = new Date().getFullYear()
-      console.log(cYear)
       let setYear = []
       while (cYear >= new Date(records.basic.dateOfJoining).getFullYear()) {
         setYear.push(cYear)
         cYear--
       }
       setValidYear(setYear)
-      console.log(validYear)
 
       if (selectedAttendanceYear) {
         if (
@@ -573,7 +563,7 @@ ${status === "MARRIED"
         <div className="row check justify-content-center">
           <div className="col-lg-3 col-xl-2">
             <input
-             data-test="check1"
+             data-testid="check1"
               type="checkbox"
               ref={ref}
               onChange={handleClick}
@@ -643,8 +633,9 @@ ${status === "MARRIED"
                   <td className="CTCHiddenRow">
                     {ctc === undefined ? "NA" : ctc}
                   </td>
-                  <td className="familyHiddenRow" data-testid ="famBtn">
+                  <td className="familyHiddenRow">
                     <button 
+                    data-testid = "famBtn"
                       id="modalbtn"
                       onClick={() =>
                         onButtonClick2(
@@ -682,7 +673,7 @@ ${status === "MARRIED"
           </Table>
         </div>
         {/* </div> */}
-        <Modal isOpen={modalIsOpen}>
+        <Modal isOpen={modalIsOpen} data-testid ="familyModal">
           <h1 className="heading text-center pt-4" id="heading"></h1>
           <p className="crossSign" onClick={() => setModalIsOpen(false)}>
             &#10060;
@@ -789,7 +780,7 @@ ${status === "MARRIED"
                       Select year
                     </option>
                     {validYear.map((y: any) => (
-                      <option value={y}>{y}</option>
+                      <option key={y} value={y}>{y}</option>
                     ))}
                   </select>
                 </div>
@@ -874,9 +865,9 @@ ${status === "MARRIED"
                 </tr>
               </Table>
               {selectedMonthsalaryData &&
-                selectedMonthsalaryData.map((salaryData: any) => {
+                selectedMonthsalaryData.map((salaryData: any,i:number) => {
                   return (
-                    <table className="salaryTable table-responsive" style={{ border: 1 }}>
+                    <table key={i} className="salaryTable table-responsive" style={{ border: 1 }}>
                       <tr style={{ border: "1px solid black" }}>
                         <th>Earnings</th>
                         <th>Amount</th>
@@ -948,4 +939,4 @@ ${status === "MARRIED"
 
   )
 }
-export default Profile1
+export default Profile

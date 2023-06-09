@@ -323,7 +323,6 @@ const App = () => {
     setModalIsOpen(true)
     setTimeout(() => {
       var input = document.getElementById("common-modal") as HTMLInputElement
-
       input.innerHTML = `
       <table class="profileTable table table-bordered table-striped table-sm">  <thead className="thead"><tr>
       <th>Payment Type</th>
@@ -494,7 +493,7 @@ const App = () => {
           </div>
         </div>
         {/* modal */}
-        <Modal isOpen={modalIsOpen}>
+        <Modal isOpen={modalIsOpen} test-dataid= "myModal">
           <h1 className="heading text-center pt-4" id="heading"></h1>
           <div style={{ overflowX: "scroll", width: "100%" }}>
             <div className="familyInformation" id="common-modal"></div>
