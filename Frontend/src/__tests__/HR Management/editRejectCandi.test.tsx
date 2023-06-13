@@ -2,7 +2,7 @@ import React from "react";
 import EditRejectedCandidate from "../../pages/HR Management/editRejectCandi";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {act, screen,cleanup} from "@testing-library/react"
+import {act, screen,cleanup, fireEvent, waitFor,} from "@testing-library/react"
 import { render} from "../../test_Util/custom_render_function";
 import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom/extend-expect"
@@ -163,10 +163,34 @@ describe("Testing candidate selection page", () => {
     await findByText("CAND001")
   });
 
-  it.only("Scenario:after rendering component When user click on edit button that save button should appear", async () => {
+  it("Scenario:after rendering component When user click on edit button that save button should appear", async () => {
     loadUser()
-    getAllCandidate()
-    const {queryByText,findByText,getAllByRole,debug} = await act(()=> render(<EditRejectedCandidate />, {
+    getAllCandidate({data:allCandidate})
+    server.use(rest.get("/api/v2/single-candi/CAND001",(req,res,ctx)=>{
+      return res(ctx.json({
+        "_id": "636a3e28bcb07e35f156da22",
+        "candidateId": "CAND001",
+        "candidateName": "Priya Kadam",
+        "eduQual": "M.E",
+        "primarySkill": "HTML, CSS, NodeJS",
+        "secondarySkill": "Core Java",
+        "noticePeriod": "3 Months",
+        "currentCTC": "5 CTC",
+        "expectedCTC": "10 CTC",
+        "candiStatus": "Rejected",
+        "createdAt": "2022-11-08T11:31:52.018Z",
+        "__v": 0,
+        "rejectedMessage": "Delay in joining"
+    }))
+    }))
+
+    server.use(rest.put("/api/v2/edit-rejectcandi/CAND001",(req,res,ctx)=>{
+      allCandidate.candiInfo[0].candidateName = "Priya k"
+      allCandidate.candiInfo[0].currentCTC = "10 LPA"
+      return res(ctx.json("candidate data updated successfully"))
+    }))
+
+    const {queryByText,findByText,getAllByRole,debug,getAllByTestId,queryAllByRole} = await act(()=> render(<EditRejectedCandidate />, {
       route: "/HR%20Management/editRejectCandi/",
     })
     );
@@ -174,12 +198,20 @@ describe("Testing candidate selection page", () => {
     await findByText("CAND001")
 
     const allEditBtn = getAllByRole("editBtn")
+    expect(allEditBtn.length).toBeGreaterThanOrEqual(1)
+
+    await waitFor(()=>userEvent.click(allEditBtn[0]))
+
+    const candidateNameInput  = getAllByTestId("candidateName");
+    const candidateCurrentCTCInput = getAllByTestId("currentCTC");
+    userEvent.type(candidateNameInput[0],"Priya k")
+    userEvent.type(candidateCurrentCTCInput[0],"10 LPA")
+    
     const allSaveBtn = getAllByRole("saveBtn")
-    // expect(allEditBtn.length).toBeGreaterThanOrEqual(1)
-    // expect(allEditBtn.length).toBeGreaterThanOrEqual(1)
-    // userEvent.click(allEditBtn[0])
-    // debug()
-    // expect(allSaveBtn[0])
+    expect(allSaveBtn.length).toBeGreaterThanOrEqual(1)
+
+    await waitFor(()=>userEvent.click(allSaveBtn[0]))
+    expect(queryAllByRole("saveBtn").length).toBeLessThanOrEqual(0)
 
   });
 });

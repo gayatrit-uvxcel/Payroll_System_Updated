@@ -7,7 +7,7 @@ import { getOwnerData } from "../../services/apiFunction";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
-  const [candirecords, setCandirecords] = useState([]);
+  const [candirecords, setCandirecords] = useState<any>([]);
   const [rejectCandi, setRejectCandi] = useState<any>([]);
   const [candiToEdit, setCandiToEdit] = useState<any>({
     candidateId: "",
@@ -23,17 +23,17 @@ function App() {
   });
   // To get all candidate from db
   const getAllCandidates = async () => {
+    // console.log("hii from")
     let data = await getOwnerData();
-
+    
     if (data.success === true) {
-      setCandirecords(data.candiInfo);
+      data.candiInfo.map((record: any) => {
+        if (record?.candiStatus === "Rejected") {
+          rejectCandi.push(record);
+        }
+      });
+      setCandirecords([...rejectCandi]);
     }
-    data.candiInfo.map((record: any) => {
-      if (record?.candiStatus === "Rejected") {
-        rejectCandi.push(record);
-      }
-    });
-    setCandirecords(rejectCandi);
   };
 
   // calling function
@@ -46,7 +46,7 @@ function App() {
   };
   //On edit button click
   const onEditBtnClick = async (e: any, candiId: number) => {
-    console.log(candiToEdit);
+
     const tableRow = e.target.closest("tr");
     const rowData = tableRow.querySelectorAll(".data");
     tableRow.querySelectorAll(".data").forEach((input: any) => {
@@ -61,7 +61,7 @@ function App() {
   };
   //On save button click
   const onSaveBtnClick = async (e: any, candiId: number, name: string) => {
-    console.log(candiId, candiToEdit);
+
     if (
       candiToEdit.candidateName === "" ||
       candiToEdit.eduQual === "" ||
@@ -120,6 +120,7 @@ function App() {
     } else {
       await axios.put(`/api/v2/edit-rejectcandi/${candiId}`, candiToEdit);
       e.target.style.display = "none";
+      await getAllCandidates();
       const tableRow = e.target.closest("tr");
       tableRow.querySelectorAll(".data").forEach((input: any) => {
         input.style.border = "none";
@@ -203,6 +204,7 @@ function App() {
                               <input
                                 name="candidateName"
                                 className="data name"
+                                data-testid = "candidateName"
                                 onChange={onValueChange}
                                 type="text"
                                 defaultValue={candirecord.candidateName}
@@ -252,6 +254,7 @@ function App() {
                             <td>
                               <input
                                 name="currentCTC"
+                                data-testid = "currentCTC"
                                 className="data text currectCTC"
                                 onChange={onValueChange}
                                 type="text"
